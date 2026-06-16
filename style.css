@@ -1,9 +1,3 @@
-/* =================================================================
-   style.css — LibSpace ระบบจองห้องสมุดและพื้นที่เรียนรู้
-   กำหนด CSS สำหรับ Custom Components ที่ Tailwind ทำไม่ได้
-================================================================= */
-
-/* ---- ฟอนต์และ Reset พื้นฐาน ---- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -13,7 +7,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ---- CSS Variables: สี Theme หลัก ---- */
 :root {
     --sidebar-w: 248px;
     --topbar-h: 44px;
@@ -30,7 +23,6 @@ body {
     --shadow-md: 0 4px 16px rgba(0,0,0,.10), 0 1px 4px rgba(0,0,0,.06);
 }
 
-/* Role: Admin ใช้ม่วงเข้ม */
 body.admin-role {
     --primary: #7C3AED;
     --primary-dark: #6D28D9;
@@ -38,9 +30,6 @@ body.admin-role {
     --sidebar-text: #DDD6FE;
 }
 
-/* =================================================================
-   แถบ Role Switcher (ติดด้านบนตลอด)
-================================================================= */
 #role-bar {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -120,18 +109,12 @@ body.admin-role .role-btn-active {
     color: #4C1D95 !important;
 }
 
-/* =================================================================
-   โครงสร้างหลัก: App Layout (Sidebar + Main)
-================================================================= */
 #app-layout {
     display: flex;
     min-height: 100vh;
     padding-top: var(--topbar-h);
 }
 
-/* =================================================================
-   Sidebar
-================================================================= */
 #sidebar {
     width: var(--sidebar-w);
     min-height: calc(100vh - var(--topbar-h));
@@ -148,7 +131,6 @@ body.admin-role .role-btn-active {
     overflow-y: auto;
 }
 
-/* โลโก้ใน Sidebar */
 .sidebar-logo-area {
     display: flex;
     align-items: center;
@@ -178,7 +160,6 @@ body.admin-role .role-btn-active {
     transition: all 0.3s ease;
 }
 
-/* โปรไฟล์ผู้ใช้ใน Sidebar */
 .sidebar-profile-box {
     display: flex;
     align-items: center;
@@ -217,7 +198,6 @@ body.admin-role .role-btn-active {
     opacity: 0.7;
 }
 
-/* เมนูนำทาง */
 #nav-user, #nav-admin {
     flex: 1;
     padding: 0 10px;
@@ -280,9 +260,6 @@ body.admin-role .role-btn-active {
     margin-top: auto;
 }
 
-/* =================================================================
-   Main Content Area
-================================================================= */
 #main-content {
     margin-left: var(--sidebar-w);
     flex: 1;
@@ -292,9 +269,6 @@ body.admin-role .role-btn-active {
     max-width: calc(100vw - var(--sidebar-w));
 }
 
-/* =================================================================
-   Pages: Transition Animation
-================================================================= */
 .page {
     display: none;
     animation: pageFadeIn 0.3s ease;
@@ -309,9 +283,6 @@ body.admin-role .role-btn-active {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* =================================================================
-   Page Header
-================================================================= */
 .page-header {
     display: flex;
     align-items: center;
@@ -368,9 +339,6 @@ body.admin-role .role-btn-active {
     letter-spacing: 0.3px;
 }
 
-/* =================================================================
-   Content Card (กล่องเนื้อหา)
-================================================================= */
 .content-card {
     background: #fff;
     border-radius: var(--radius);
@@ -410,9 +378,6 @@ body.admin-role .role-btn-active {
 
 .text-link-btn:hover { background: #EEF2FF; }
 
-/* =================================================================
-   Quota Banner (แบนเนอร์โควตา)
-================================================================= */
 .quota-banner {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     border-radius: var(--radius);
@@ -469,9 +434,6 @@ body.admin-role .role-btn-active {
 
 .quota-emoji-icon { font-size: 48px; }
 
-/* =================================================================
-   Stats Grid (การ์ดสถิติ 4 ช่อง)
-================================================================= */
 .stats-grid-4 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -505,7 +467,6 @@ body.admin-role .role-btn-active {
 .sc-label{ font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
 .sc-trend{ font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 2px; }
 
-/* สีของการ์ดสถิติ */
 .sc-blue   { background: linear-gradient(135deg, #3B82F6, #2563EB); }
 .sc-green  { background: linear-gradient(135deg, #10B981, #059669); }
 .sc-purple { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
@@ -515,9 +476,6 @@ body.admin-role .role-btn-active {
 .sc-teal   { background: linear-gradient(135deg, #14B8A6, #0D9488); }
 .sc-rose   { background: linear-gradient(135deg, #F43F5E, #E11D48); }
 
-/* =================================================================
-   Upcoming Bookings List (รายการจองที่กำลังจะถึง)
-================================================================= */
 .upcoming-list { display: flex; flex-direction: column; gap: 10px; }
 
 .upcoming-item {
@@ -544,7 +502,6 @@ body.admin-role .role-btn-active {
 .upcoming-room-name { font-size: 14px; font-weight: 600; color: #1E293B; }
 .upcoming-datetime  { font-size: 12px; color: #64748B; margin-top: 2px; }
 
-/* Status Pills / Badges */
 .status-pill {
     font-size: 11px;
     font-weight: 600;
@@ -559,9 +516,6 @@ body.admin-role .role-btn-active {
 .pill-checkedin { background: #DBEAFE; color: #1D4ED8; }
 .pill-cancelled { background: #FEE2E2; color: #B91C1C; }
 
-/* =================================================================
-   Room Overview Grid (สถานะห้องภาพรวม)
-================================================================= */
 .room-overview-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -583,7 +537,6 @@ body.admin-role .role-btn-active {
 .room-ov-name { font-size: 13px; font-weight: 600; color: #1E293B; }
 .room-ov-meta { font-size: 11px; color: #64748B; }
 
-/* Status Dots */
 .dot {
     width: 10px; height: 10px;
     border-radius: 50%;
@@ -596,9 +549,6 @@ body.admin-role .role-btn-active {
 .dot-gray  { background: #94A3B8; box-shadow: 0 0 0 3px rgba(148,163,184,0.2); }
 .dot-amber { background: #F59E0B; box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
 
-/* =================================================================
-   Buttons
-================================================================= */
 .btn {
     font-family: 'Sarabun', sans-serif;
     font-weight: 600;
@@ -648,9 +598,6 @@ body.admin-role .role-btn-active {
 
 .hidden { display: none !important; }
 
-/* =================================================================
-   Booking Flow: Stepper (ตัวบอกขั้นตอน)
-================================================================= */
 .stepper {
     display: flex;
     align-items: center;
@@ -713,11 +660,9 @@ body.admin-role .role-btn-active {
     min-width: 24px;
 }
 
-/* Booking Steps: แต่ละขั้นตอน */
 .booking-step { display: none; animation: pageFadeIn 0.3s ease; }
 .booking-step-active { display: block; }
 
-/* ขั้นตอนที่ 1: ประเภทห้อง */
 .room-type-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -772,7 +717,6 @@ body.admin-role .role-btn-active {
     border-radius: 50%;
 }
 
-/* ขั้นตอนที่ 2: วันที่และเวลา */
 .date-grid {
     display: flex;
     gap: 10px;
@@ -806,7 +750,6 @@ body.admin-role .role-btn-active {
 .date-num  { font-size: 22px; font-weight: 800; line-height: 1.1; }
 .date-month{ font-size: 11px; opacity: 0.7; }
 
-/* Time Slots */
 .timeslot-hint {
     font-size: 13px;
     color: #94A3B8;
@@ -850,7 +793,6 @@ body.admin-role .role-btn-active {
 .ts-status { font-size: 11px; margin-top: 3px; opacity: 0.8; }
 .ts-icon   { font-size: 16px; margin-bottom: 3px; }
 
-/* ขั้นตอนที่ 3: สรุปการจอง */
 .booking-summary-box {
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
@@ -892,9 +834,6 @@ body.admin-role .role-btn-active {
     margin-top: 4px;
 }
 
-/* =================================================================
-   Ticket Card (ตั๋วการจอง)
-================================================================= */
 .ticket-card {
     background: #fff;
     border-radius: 16px;
@@ -975,7 +914,6 @@ body.admin-role .role-btn-active {
     position: relative;
 }
 
-/* QR Code Section */
 .qr-section {
     display: flex;
     gap: 24px;
@@ -1035,7 +973,6 @@ body.admin-role .role-btn-active {
     text-align: center;
 }
 
-/* My Bookings List */
 .my-booking-row {
     display: flex;
     align-items: center;
@@ -1048,9 +985,6 @@ body.admin-role .role-btn-active {
 .my-bk-room { font-size: 14px; font-weight: 600; color: #1E293B; }
 .my-bk-time { font-size: 12px; color: #64748B; }
 
-/* =================================================================
-   Admin Dashboard: กราฟแท่ง (Bar Chart)
-================================================================= */
 .two-col-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1112,7 +1046,6 @@ body.admin-role .role-btn-active {
     text-align: center;
 }
 
-/* ห้องยอดนิยม */
 .popular-list { display: flex; flex-direction: column; gap: 12px; }
 
 .popular-item {
@@ -1156,7 +1089,6 @@ body.admin-role .role-btn-active {
 
 .popular-count { font-size: 12px; font-weight: 700; color: #64748B; white-space: nowrap; }
 
-/* Alerts */
 .alert-list { display: flex; flex-direction: column; gap: 10px; }
 
 .alert-item {
@@ -1176,9 +1108,6 @@ body.admin-role .role-btn-active {
 .alert-title { font-size: 13px; font-weight: 700; color: #1E293B; }
 .alert-sub   { font-size: 12px; color: #64748B; }
 
-/* =================================================================
-   Admin: Booking Management Table
-================================================================= */
 .filter-row {
     display: flex;
     align-items: center;
@@ -1200,7 +1129,6 @@ body.admin-role .role-btn-active {
 
 .filter-select:focus { border-color: var(--primary); }
 
-/* Mini Stats Row */
 .mini-stats-row {
     display: flex;
     gap: 10px;
@@ -1222,7 +1150,6 @@ body.admin-role .role-btn-active {
 
 .mini-stat-num { font-size: 20px; font-weight: 800; color: var(--primary); }
 
-/* Table Card */
 .table-card { padding: 0; overflow: hidden; }
 .table-scroll-wrapper { overflow-x: auto; }
 
@@ -1267,9 +1194,6 @@ body.admin-role .role-btn-active {
 
 .action-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
 
-/* =================================================================
-   Admin: Room Control Cards
-================================================================= */
 .rooms-summary-row {
     display: flex;
     gap: 10px;
@@ -1338,7 +1262,6 @@ body.admin-role .role-btn-active {
 .rc-status-closed{ color: var(--danger); }
 .rc-status-maint { color: var(--warning); }
 
-/* Toggle Switch (สวิทช์เปิด-ปิด) */
 .toggle-switch {
     position: relative;
     display: inline-block;
@@ -1371,14 +1294,10 @@ body.admin-role .role-btn-active {
 .toggle-switch input:checked + .toggle-slider { background: var(--success); }
 .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
 
-/* Room card status backgrounds */
 .room-control-card.rc-open     { border-top: 3px solid var(--success); }
 .room-control-card.rc-closed   { border-top: 3px solid var(--danger); opacity: 0.85; }
 .room-control-card.rc-maint    { border-top: 3px solid var(--warning); }
 
-/* =================================================================
-   Modal (Popup Dialog)
-================================================================= */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -1429,13 +1348,9 @@ body.admin-role .role-btn-active {
 
 .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
-/* mt utility */
 .mt-4 { margin-top: 16px; }
 .mt-6 { margin-top: 24px; }
 
-/* =================================================================
-   Responsive tweaks
-================================================================= */
 @media (max-width: 768px) {
     #sidebar { display: none; }
     #main-content { margin-left: 0; max-width: 100vw; padding: 16px; }
@@ -1444,7 +1359,6 @@ body.admin-role .role-btn-active {
     .quota-emoji-icon { display: none; }
 }
 
-/* Scrollbar สวยงาม */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }

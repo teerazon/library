@@ -4,18 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LibSpace — ระบบจองห้องสมุดและพื้นที่เรียนรู้</title>
-    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- ฟอนต์ภาษาไทย Sarabun จาก Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ============================================================ -->
-<!--  แถบสลับบทบาท (Role Switcher Bar)                          -->
-<!--  ติดอยู่ด้านบนสุดตลอดเวลา เพื่อใช้ตอนพรีเซนต์งาน         -->
-<!-- ============================================================ -->
 <div id="role-bar">
     <div class="role-bar-inner">
         <div class="role-bar-left">
@@ -33,16 +27,10 @@
     </div>
 </div>
 
-<!-- ============================================================ -->
-<!--  โครงสร้างหลักของแอป                                        -->
-<!--  ประกอบด้วย Sidebar + Main Content Area                      -->
-<!-- ============================================================ -->
 <div id="app-layout">
 
-    <!-- ====== Sidebar Navigation ====== -->
     <aside id="sidebar">
 
-        <!-- โลโก้ระบบ -->
         <div class="sidebar-logo-area">
             <span class="sidebar-logo-icon">📚</span>
             <div>
@@ -51,7 +39,6 @@
             </div>
         </div>
 
-        <!-- ข้อมูลโปรไฟล์ผู้ใช้ใน Sidebar -->
         <div class="sidebar-profile-box">
             <div class="sidebar-avatar" id="sidebar-avatar">ธ</div>
             <div>
@@ -60,7 +47,6 @@
             </div>
         </div>
 
-        <!-- เมนูนำทางฝั่ง User -->
         <nav id="nav-user">
             <p class="nav-group-label">เมนูหลัก</p>
             <button class="nav-item nav-item-active" data-page="user-dashboard" onclick="navigate('user-dashboard')">
@@ -74,7 +60,6 @@
             </button>
         </nav>
 
-        <!-- เมนูนำทางฝั่ง Admin (ซ่อนอยู่ตอนแรก) -->
         <nav id="nav-admin" class="hidden">
             <p class="nav-group-label">จัดการระบบ</p>
             <button class="nav-item nav-item-active" data-page="admin-dashboard" onclick="navigate('admin-dashboard')">
@@ -91,14 +76,8 @@
         <div class="sidebar-footer-label">v1.0.0 · Mockup Demo 2568</div>
     </aside>
 
-    <!-- ====== Main Content Area ====== -->
     <main id="main-content">
 
-        <!-- ================================================ -->
-        <!--  USER PAGES                                       -->
-        <!-- ================================================ -->
-
-        <!-- หน้า U1: User Dashboard -->
         <section id="page-user-dashboard" class="page page-active">
             <div class="page-header">
                 <div>
@@ -108,7 +87,6 @@
                 <button class="icon-action-btn" title="การแจ้งเตือน">🔔 <span class="notif-dot"></span></button>
             </div>
 
-            <!-- แบนเนอร์โควตา -->
             <div class="quota-banner">
                 <div class="quota-text">
                     <p class="quota-banner-label">โควตาชั่วโมงคงเหลือของคุณสัปดาห์นี้</p>
@@ -124,7 +102,6 @@
                 <div class="quota-emoji-icon">⏱️</div>
             </div>
 
-            <!-- การ์ดสถิติด่วน 4 ช่อง -->
             <div class="stats-grid-4">
                 <div class="stat-card sc-blue">
                     <span class="sc-icon">📅</span>
@@ -148,7 +125,6 @@
                 </div>
             </div>
 
-            <!-- การจองที่กำลังจะถึง -->
             <div class="content-card">
                 <div class="content-card-header">
                     <h2 class="content-card-title">📅 การจองที่กำลังจะถึง</h2>
@@ -176,7 +152,6 @@
                 </div>
             </div>
 
-            <!-- สถานะห้องภาพรวม -->
             <div class="content-card">
                 <h2 class="content-card-title">🚪 สถานะห้องภาพรวมขณะนี้</h2>
                 <div class="room-overview-grid">
@@ -190,7 +165,6 @@
             </div>
         </section>
 
-        <!-- หน้า U2: ค้นหาและจองห้อง -->
         <section id="page-user-book" class="page">
             <div class="page-header">
                 <div>
@@ -199,7 +173,6 @@
                 </div>
             </div>
 
-            <!-- แถบแสดงขั้นตอน (Stepper) -->
             <div class="stepper">
                 <div class="step-item" id="step-indicator-1">
                     <div class="step-circle step-active-circle">1</div>
@@ -217,7 +190,6 @@
                 </div>
             </div>
 
-            <!-- ขั้นตอนที่ 1: เลือกประเภทห้อง -->
             <div id="booking-step-1" class="booking-step booking-step-active">
                 <div class="content-card">
                     <h2 class="content-card-title">🏷️ เลือกประเภทพื้นที่ที่ต้องการ</h2>
@@ -256,19 +228,16 @@
                 </div>
             </div>
 
-            <!-- ขั้นตอนที่ 2: เลือกวันและ Time Slot -->
             <div id="booking-step-2" class="booking-step">
                 <div class="content-card">
                     <h2 class="content-card-title">📅 เลือกวันที่</h2>
                     <div class="date-grid" id="date-grid">
-                        <!-- JS สร้าง Date Cards ตรงนี้ -->
                     </div>
                 </div>
                 <div class="content-card">
                     <h2 class="content-card-title">⏰ เลือกช่วงเวลา (Time Slot)</h2>
                     <p class="timeslot-hint" id="timeslot-hint">กรุณาเลือกวันที่ก่อน</p>
                     <div class="timeslot-grid" id="timeslot-grid">
-                        <!-- JS สร้าง Time Slot Cards ตรงนี้ -->
                     </div>
                 </div>
                 <div class="step-nav-buttons">
@@ -279,7 +248,6 @@
                 </div>
             </div>
 
-            <!-- ขั้นตอนที่ 3: ยืนยันการจอง -->
             <div id="booking-step-3" class="booking-step">
                 <div class="content-card">
                     <h2 class="content-card-title">✅ สรุปรายละเอียดการจอง</h2>
@@ -305,7 +273,6 @@
             </div>
         </section>
 
-        <!-- หน้า U3: ตั๋วการจอง (Ticket) -->
         <section id="page-user-ticket" class="page">
             <div class="page-header">
                 <div>
@@ -314,7 +281,6 @@
                 </div>
             </div>
 
-            <!-- ตั๋วการจองหลัก -->
             <div class="ticket-card" id="main-ticket">
                 <div class="ticket-top">
                     <div>
@@ -354,7 +320,6 @@
 
                     <div class="ticket-divider-dashed"></div>
 
-                    <!-- QR Code จำลอง (วาดด้วย Canvas) -->
                     <div class="qr-section">
                         <div class="qr-wrapper">
                             <canvas id="qr-canvas" width="160" height="160"></canvas>
@@ -375,20 +340,13 @@
                 </div>
             </div>
 
-            <!-- รายการจองทั้งหมดของ User -->
             <div class="content-card mt-6">
                 <h2 class="content-card-title">📋 ประวัติการจองทั้งหมด</h2>
                 <div id="my-bookings-list">
-                    <!-- JS จะ render ตรงนี้ -->
                 </div>
             </div>
         </section>
 
-        <!-- ================================================ -->
-        <!--  ADMIN PAGES                                      -->
-        <!-- ================================================ -->
-
-        <!-- หน้า A1: Admin Dashboard -->
         <section id="page-admin-dashboard" class="page">
             <div class="page-header">
                 <div>
@@ -398,7 +356,6 @@
                 <div class="admin-mode-chip">🛡️ Admin Mode</div>
             </div>
 
-            <!-- การ์ดสถิติหลัก 4 ช่อง -->
             <div class="stats-grid-4">
                 <div class="stat-card sc-indigo">
                     <span class="sc-icon">📅</span>
@@ -426,10 +383,8 @@
                 </div>
             </div>
 
-            <!-- กราฟและสถิติ -->
             <div class="two-col-grid">
 
-                <!-- กราฟแท่ง: การจองรายชั่วโมง -->
                 <div class="content-card">
                     <h2 class="content-card-title">📊 จำนวนการจองรายชั่วโมง (วันนี้)</h2>
                     <div class="bar-chart-container">
@@ -447,7 +402,6 @@
                     </div>
                 </div>
 
-                <!-- ห้องยอดนิยม -->
                 <div class="content-card">
                     <h2 class="content-card-title">🏆 ห้องยอดนิยมประจำสัปดาห์</h2>
                     <div class="popular-list">
@@ -487,7 +441,6 @@
                 </div>
             </div>
 
-            <!-- การแจ้งเตือนด่วน -->
             <div class="content-card">
                 <h2 class="content-card-title">🔔 การแจ้งเตือนด่วน</h2>
                 <div class="alert-list">
@@ -511,7 +464,6 @@
             </div>
         </section>
 
-        <!-- หน้า A2: จัดการรายการจอง -->
         <section id="page-admin-bookings" class="page">
             <div class="page-header">
                 <div>
@@ -529,12 +481,9 @@
                 </div>
             </div>
 
-            <!-- สถิติด่วน -->
             <div class="mini-stats-row" id="admin-booking-mini-stats">
-                <!-- JS render ตรงนี้ -->
             </div>
 
-            <!-- ตารางรายการจอง -->
             <div class="content-card table-card">
                 <div class="table-scroll-wrapper">
                     <table class="data-table" id="bookings-table">
@@ -550,14 +499,12 @@
                             </tr>
                         </thead>
                         <tbody id="bookings-tbody">
-                            <!-- JS render ตรงนี้ -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- หน้า A3: ควบคุมห้องและพื้นที่ -->
         <section id="page-admin-rooms" class="page">
             <div class="page-header">
                 <div>
@@ -567,23 +514,16 @@
                 <button onclick="showAddRoomAlert()" class="btn btn-primary">+ เพิ่มห้องใหม่</button>
             </div>
 
-            <!-- สรุปจำนวนห้อง -->
             <div class="rooms-summary-row" id="rooms-summary">
-                <!-- JS render ตรงนี้ -->
             </div>
 
-            <!-- การ์ดห้อง -->
             <div class="rooms-cards-grid" id="rooms-cards-grid">
-                <!-- JS render ตรงนี้ -->
             </div>
         </section>
 
-    </main><!-- /main-content -->
-</div><!-- /app-layout -->
+    </main>
+</div>
 
-<!-- ============================================================ -->
-<!--  Modal: ยืนยันการจองสำเร็จ                                  -->
-<!-- ============================================================ -->
 <div id="success-modal" class="modal-overlay hidden" onclick="closeModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-icon-big">🎉</div>
@@ -597,7 +537,6 @@
     </div>
 </div>
 
-<!-- Modal: แจ้งเตือนทั่วไป -->
 <div id="alert-modal" class="modal-overlay hidden" onclick="closeAlertModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-icon-big" id="alert-modal-icon">ℹ️</div>
