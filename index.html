@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibSpace — ระบบจองห้องสมุดและพื้นที่เรียนรู้</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- ฟอนต์ภาษาไทย Sarabun จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!--  แถบสลับบทบาท (Role Switcher Bar)                          -->
+<!--  ติดอยู่ด้านบนสุดตลอดเวลา เพื่อใช้ตอนพรีเซนต์งาน         -->
+<!-- ============================================================ -->
+<div id="role-bar">
+    <div class="role-bar-inner">
+        <div class="role-bar-left">
+            <span class="role-bar-label">🎭 โหมดนำเสนอ:</span>
+            <div class="role-switcher-buttons">
+                <button id="btn-role-user" onclick="switchRole('user')" class="role-btn role-btn-active">
+                    👤 ผู้ใช้งาน (Student)
+                </button>
+                <button id="btn-role-admin" onclick="switchRole('admin')" class="role-btn">
+                    🛡️ ผู้ดูแล (Admin)
+                </button>
+            </div>
+        </div>
+        <span class="role-bar-brand">📚 LibSpace — ระบบจองห้องสมุดและพื้นที่เรียนรู้ · Mockup Demo</span>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  โครงสร้างหลักของแอป                                        -->
+<!--  ประกอบด้วย Sidebar + Main Content Area                      -->
+<!-- ============================================================ -->
+<div id="app-layout">
+
+    <!-- ====== Sidebar Navigation ====== -->
+    <aside id="sidebar">
+
+        <!-- โลโก้ระบบ -->
+        <div class="sidebar-logo-area">
+            <span class="sidebar-logo-icon">📚</span>
+            <div>
+                <p class="sidebar-logo-name">LibSpace</p>
+                <p class="sidebar-logo-role" id="sidebar-role-label">Student Portal</p>
+            </div>
+        </div>
+
+        <!-- ข้อมูลโปรไฟล์ผู้ใช้ใน Sidebar -->
+        <div class="sidebar-profile-box">
+            <div class="sidebar-avatar" id="sidebar-avatar">ธ</div>
+            <div>
+                <p class="sidebar-profile-name" id="sidebar-profile-name">นายธีรพงศ์ มานะ</p>
+                <p class="sidebar-profile-id" id="sidebar-profile-id">รหัส: 64010001</p>
+            </div>
+        </div>
+
+        <!-- เมนูนำทางฝั่ง User -->
+        <nav id="nav-user">
+            <p class="nav-group-label">เมนูหลัก</p>
+            <button class="nav-item nav-item-active" data-page="user-dashboard" onclick="navigate('user-dashboard')">
+                <span class="nav-icon">🏠</span><span>หน้าหลัก (Dashboard)</span>
+            </button>
+            <button class="nav-item" data-page="user-book" onclick="navigate('user-book')">
+                <span class="nav-icon">🔍</span><span>ค้นหา &amp; จองห้อง</span>
+            </button>
+            <button class="nav-item" data-page="user-ticket" onclick="navigate('user-ticket')">
+                <span class="nav-icon">🎫</span><span>ตั๋วการจองของฉัน</span>
+            </button>
+        </nav>
+
+        <!-- เมนูนำทางฝั่ง Admin (ซ่อนอยู่ตอนแรก) -->
+        <nav id="nav-admin" class="hidden">
+            <p class="nav-group-label">จัดการระบบ</p>
+            <button class="nav-item nav-item-active" data-page="admin-dashboard" onclick="navigate('admin-dashboard')">
+                <span class="nav-icon">📊</span><span>ภาพรวมระบบ</span>
+            </button>
+            <button class="nav-item" data-page="admin-bookings" onclick="navigate('admin-bookings')">
+                <span class="nav-icon">📋</span><span>รายการจองทั้งหมด</span>
+            </button>
+            <button class="nav-item" data-page="admin-rooms" onclick="navigate('admin-rooms')">
+                <span class="nav-icon">🚪</span><span>ควบคุมห้องและพื้นที่</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-footer-label">v1.0.0 · Mockup Demo 2568</div>
+    </aside>
+
+    <!-- ====== Main Content Area ====== -->
+    <main id="main-content">
+
+        <!-- ================================================ -->
+        <!--  USER PAGES                                       -->
+        <!-- ================================================ -->
+
+        <!-- หน้า U1: User Dashboard -->
+        <section id="page-user-dashboard" class="page page-active">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">สวัสดีตอนบ่าย, ธีรพงศ์ 👋</h1>
+                    <p class="page-subtitle">วันอาทิตย์ที่ 15 มิถุนายน 2568 &nbsp;|&nbsp; ภาคเรียนที่ 1/2568</p>
+                </div>
+                <button class="icon-action-btn" title="การแจ้งเตือน">🔔 <span class="notif-dot"></span></button>
+            </div>
+
+            <!-- แบนเนอร์โควตา -->
+            <div class="quota-banner">
+                <div class="quota-text">
+                    <p class="quota-banner-label">โควตาชั่วโมงคงเหลือของคุณสัปดาห์นี้</p>
+                    <div class="quota-numbers-row">
+                        <span class="quota-big-num">14</span>
+                        <span class="quota-out-of">/ 20 ชั่วโมง</span>
+                    </div>
+                    <div class="quota-track">
+                        <div class="quota-fill" style="width: 70%"></div>
+                    </div>
+                    <p class="quota-used-label">ใช้ไปแล้ว 6 ชั่วโมง · โควตาจะรีเซ็ตทุกวันจันทร์</p>
+                </div>
+                <div class="quota-emoji-icon">⏱️</div>
+            </div>
+
+            <!-- การ์ดสถิติด่วน 4 ช่อง -->
+            <div class="stats-grid-4">
+                <div class="stat-card sc-blue">
+                    <span class="sc-icon">📅</span>
+                    <p class="sc-num">2</p>
+                    <p class="sc-label">จองวันนี้</p>
+                </div>
+                <div class="stat-card sc-green">
+                    <span class="sc-icon">✅</span>
+                    <p class="sc-num">5</p>
+                    <p class="sc-label">ห้องว่างขณะนี้</p>
+                </div>
+                <div class="stat-card sc-purple">
+                    <span class="sc-icon">📈</span>
+                    <p class="sc-num">8</p>
+                    <p class="sc-label">จองเดือนนี้</p>
+                </div>
+                <div class="stat-card sc-orange">
+                    <span class="sc-icon">🕐</span>
+                    <p class="sc-num">6</p>
+                    <p class="sc-label">ชม. ที่ใช้สัปดาห์นี้</p>
+                </div>
+            </div>
+
+            <!-- การจองที่กำลังจะถึง -->
+            <div class="content-card">
+                <div class="content-card-header">
+                    <h2 class="content-card-title">📅 การจองที่กำลังจะถึง</h2>
+                    <button onclick="navigate('user-book')" class="text-link-btn">+ จองห้องเพิ่ม →</button>
+                </div>
+                <div class="upcoming-list">
+                    <div class="upcoming-item">
+                        <div class="upcoming-color-bar" style="background:#3B82F6"></div>
+                        <div class="upcoming-details">
+                            <p class="upcoming-room-name">ห้องติวกลุ่ม A101</p>
+                            <p class="upcoming-datetime">วันนี้ &nbsp;•&nbsp; 13:00 – 15:00 น.</p>
+                        </div>
+                        <span class="status-pill pill-confirmed">✓ อนุมัติแล้ว</span>
+                        <button onclick="showTicket('BK001')" class="btn btn-primary btn-sm">ดูตั๋ว 🎫</button>
+                    </div>
+                    <div class="upcoming-item">
+                        <div class="upcoming-color-bar" style="background:#F59E0B"></div>
+                        <div class="upcoming-details">
+                            <p class="upcoming-room-name">โซนเงียบ Zone B</p>
+                            <p class="upcoming-datetime">พรุ่งนี้ &nbsp;•&nbsp; 09:00 – 11:00 น.</p>
+                        </div>
+                        <span class="status-pill pill-pending">⏳ รออนุมัติ</span>
+                        <button class="btn btn-outline btn-sm">ยกเลิก</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- สถานะห้องภาพรวม -->
+            <div class="content-card">
+                <h2 class="content-card-title">🚪 สถานะห้องภาพรวมขณะนี้</h2>
+                <div class="room-overview-grid">
+                    <div class="room-ov-item"><span class="dot dot-green"></span><div><p class="room-ov-name">ห้องติวกลุ่ม A101</p><p class="room-ov-meta">8 คน · ว่าง</p></div></div>
+                    <div class="room-ov-item"><span class="dot dot-red"></span><div><p class="room-ov-name">ห้องติวกลุ่ม A102</p><p class="room-ov-meta">8 คน · ไม่ว่าง</p></div></div>
+                    <div class="room-ov-item"><span class="dot dot-green"></span><div><p class="room-ov-name">โซนเงียบ Zone A</p><p class="room-ov-meta">20 คน · ว่าง</p></div></div>
+                    <div class="room-ov-item"><span class="dot dot-gray"></span><div><p class="room-ov-name">ห้องเดี่ยว B201</p><p class="room-ov-meta">1 คน · ปิดปรับปรุง</p></div></div>
+                    <div class="room-ov-item"><span class="dot dot-green"></span><div><p class="room-ov-name">ห้องติวกลุ่ม B301</p><p class="room-ov-meta">12 คน · ว่าง</p></div></div>
+                    <div class="room-ov-item"><span class="dot dot-red"></span><div><p class="room-ov-name">โซนเงียบ Zone B</p><p class="room-ov-meta">15 คน · ไม่ว่าง</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- หน้า U2: ค้นหาและจองห้อง -->
+        <section id="page-user-book" class="page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">ค้นหา &amp; จองห้อง</h1>
+                    <p class="page-subtitle">เลือกประเภทพื้นที่ → วันและเวลา → ยืนยันการจอง</p>
+                </div>
+            </div>
+
+            <!-- แถบแสดงขั้นตอน (Stepper) -->
+            <div class="stepper">
+                <div class="step-item" id="step-indicator-1">
+                    <div class="step-circle step-active-circle">1</div>
+                    <span class="step-label">เลือกประเภทห้อง</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" id="step-indicator-2">
+                    <div class="step-circle">2</div>
+                    <span class="step-label">วันและเวลา</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" id="step-indicator-3">
+                    <div class="step-circle">3</div>
+                    <span class="step-label">ยืนยันการจอง</span>
+                </div>
+            </div>
+
+            <!-- ขั้นตอนที่ 1: เลือกประเภทห้อง -->
+            <div id="booking-step-1" class="booking-step booking-step-active">
+                <div class="content-card">
+                    <h2 class="content-card-title">🏷️ เลือกประเภทพื้นที่ที่ต้องการ</h2>
+                    <div class="room-type-grid">
+                        <div class="room-type-card" id="rt-group" onclick="selectRoomType('group', this)">
+                            <div class="rt-icon">👥</div>
+                            <h3 class="rt-name">ห้องติวกลุ่ม</h3>
+                            <p class="rt-desc">เหมาะสำหรับทำงานกลุ่ม 4–12 คน มีไวท์บอร์ด โปรเจคเตอร์ และปลั๊กไฟ</p>
+                            <p class="rt-capacity">รองรับ 4–12 คน</p>
+                            <div class="rt-avail">
+                                <span class="avail-dot"></span> 5 ห้องว่าง
+                            </div>
+                        </div>
+                        <div class="room-type-card" id="rt-quiet" onclick="selectRoomType('quiet', this)">
+                            <div class="rt-icon">🤫</div>
+                            <h3 class="rt-name">โซนเงียบ</h3>
+                            <p class="rt-desc">พื้นที่อ่านหนังสือแบบสงบ ห้ามพูดคุยเสียงดัง เหมาะสำหรับสมาธิสูง</p>
+                            <p class="rt-capacity">รองรับ 1–20 คน</p>
+                            <div class="rt-avail">
+                                <span class="avail-dot"></span> 2 โซนว่าง
+                            </div>
+                        </div>
+                        <div class="room-type-card" id="rt-solo" onclick="selectRoomType('solo', this)">
+                            <div class="rt-icon">🧑‍💻</div>
+                            <h3 class="rt-name">ห้องเดี่ยว</h3>
+                            <p class="rt-desc">ห้องส่วนตัวสำหรับ 1 คน มีโต๊ะทำงาน เหมาะสำหรับนั่งอ่านหนังสือเดี่ยว</p>
+                            <p class="rt-capacity">รองรับ 1 คน</p>
+                            <div class="rt-avail">
+                                <span class="avail-dot"></span> 3 ห้องว่าง
+                            </div>
+                        </div>
+                    </div>
+                    <button id="btn-step1-next" onclick="goToStep(2)" class="btn btn-primary btn-lg hidden mt-4">
+                        ถัดไป: เลือกวันและเวลา →
+                    </button>
+                </div>
+            </div>
+
+            <!-- ขั้นตอนที่ 2: เลือกวันและ Time Slot -->
+            <div id="booking-step-2" class="booking-step">
+                <div class="content-card">
+                    <h2 class="content-card-title">📅 เลือกวันที่</h2>
+                    <div class="date-grid" id="date-grid">
+                        <!-- JS สร้าง Date Cards ตรงนี้ -->
+                    </div>
+                </div>
+                <div class="content-card">
+                    <h2 class="content-card-title">⏰ เลือกช่วงเวลา (Time Slot)</h2>
+                    <p class="timeslot-hint" id="timeslot-hint">กรุณาเลือกวันที่ก่อน</p>
+                    <div class="timeslot-grid" id="timeslot-grid">
+                        <!-- JS สร้าง Time Slot Cards ตรงนี้ -->
+                    </div>
+                </div>
+                <div class="step-nav-buttons">
+                    <button onclick="goToStep(1)" class="btn btn-outline">← ย้อนกลับ</button>
+                    <button id="btn-step2-next" onclick="goToStep(3)" class="btn btn-primary hidden">
+                        ถัดไป: ยืนยันการจอง →
+                    </button>
+                </div>
+            </div>
+
+            <!-- ขั้นตอนที่ 3: ยืนยันการจอง -->
+            <div id="booking-step-3" class="booking-step">
+                <div class="content-card">
+                    <h2 class="content-card-title">✅ สรุปรายละเอียดการจอง</h2>
+                    <div class="booking-summary-box">
+                        <div class="summary-row"><span class="sum-label">ประเภทพื้นที่</span><span class="sum-val" id="sum-type">—</span></div>
+                        <div class="summary-row"><span class="sum-label">ห้องที่จัดสรรให้</span><span class="sum-val" id="sum-room">—</span></div>
+                        <div class="summary-row"><span class="sum-label">วันที่</span><span class="sum-val" id="sum-date">—</span></div>
+                        <div class="summary-row"><span class="sum-label">เวลา</span><span class="sum-val" id="sum-time">—</span></div>
+                        <div class="summary-row"><span class="sum-label">ระยะเวลา</span><span class="sum-val">2 ชั่วโมง</span></div>
+                        <div class="summary-row"><span class="sum-label">ผู้จอง</span><span class="sum-val">นายธีรพงศ์ มานะ (64010001)</span></div>
+                    </div>
+                    <div class="confirm-warning-box">
+                        <span>⚠️</span>
+                        <p>กรุณามาเช็คอินที่หน้าห้องภายใน <strong>15 นาที</strong> หลังจากเวลาเริ่ม หากไม่มาระบบจะยกเลิกการจองอัตโนมัติ</p>
+                    </div>
+                </div>
+                <div class="step-nav-buttons">
+                    <button onclick="goToStep(2)" class="btn btn-outline">← ย้อนกลับ</button>
+                    <button onclick="confirmBooking()" class="btn btn-success btn-lg">
+                        🎫 ยืนยันการจอง
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- หน้า U3: ตั๋วการจอง (Ticket) -->
+        <section id="page-user-ticket" class="page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">ตั๋วการจอง</h1>
+                    <p class="page-subtitle">แสดง QR Code นี้ที่หน้าห้องเพื่อเช็คอิน</p>
+                </div>
+            </div>
+
+            <!-- ตั๋วการจองหลัก -->
+            <div class="ticket-card" id="main-ticket">
+                <div class="ticket-top">
+                    <div>
+                        <p class="ticket-system-name">📚 LibSpace · ระบบจองห้องสมุด</p>
+                        <h2 class="ticket-room-title" id="tk-room-name">ห้องติวกลุ่ม A101</h2>
+                    </div>
+                    <div class="ticket-status-chip" id="tk-status">✓ อนุมัติแล้ว</div>
+                </div>
+
+                <div class="ticket-body">
+                    <div class="ticket-info-grid">
+                        <div class="tk-info-box">
+                            <p class="tk-info-label">รหัสการจอง</p>
+                            <p class="tk-info-val mono-font" id="tk-code">BK-2568-001</p>
+                        </div>
+                        <div class="tk-info-box">
+                            <p class="tk-info-label">วันที่</p>
+                            <p class="tk-info-val" id="tk-date">15 มิถุนายน 2568</p>
+                        </div>
+                        <div class="tk-info-box">
+                            <p class="tk-info-label">เวลา</p>
+                            <p class="tk-info-val" id="tk-time">13:00 – 15:00 น.</p>
+                        </div>
+                        <div class="tk-info-box">
+                            <p class="tk-info-label">ชั้น / ตำแหน่ง</p>
+                            <p class="tk-info-val" id="tk-location">ชั้น 2 อาคาร A</p>
+                        </div>
+                        <div class="tk-info-box">
+                            <p class="tk-info-label">ผู้จอง</p>
+                            <p class="tk-info-val" id="tk-user">นายธีรพงศ์ มานะ</p>
+                        </div>
+                        <div class="tk-info-box">
+                            <p class="tk-info-label">รหัสนักศึกษา</p>
+                            <p class="tk-info-val">64010001</p>
+                        </div>
+                    </div>
+
+                    <div class="ticket-divider-dashed"></div>
+
+                    <!-- QR Code จำลอง (วาดด้วย Canvas) -->
+                    <div class="qr-section">
+                        <div class="qr-wrapper">
+                            <canvas id="qr-canvas" width="160" height="160"></canvas>
+                        </div>
+                        <div class="qr-info-text">
+                            <p class="qr-instruction">สแกน QR Code ที่หน้าห้องเพื่อเช็คอิน</p>
+                            <p class="qr-booking-code mono-font" id="qr-code-display">BK-2568-001</p>
+                            <div class="qr-valid-time">
+                                <span>⏱️</span>
+                                <span id="qr-valid-until">ใช้ได้ถึงเวลา 15:00 น.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ticket-footer">
+                    🏛️ ห้องสมุดมหาวิทยาลัย · โทร 02-XXX-XXXX · เวลาทำการ 08:00–20:00 น.
+                </div>
+            </div>
+
+            <!-- รายการจองทั้งหมดของ User -->
+            <div class="content-card mt-6">
+                <h2 class="content-card-title">📋 ประวัติการจองทั้งหมด</h2>
+                <div id="my-bookings-list">
+                    <!-- JS จะ render ตรงนี้ -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================ -->
+        <!--  ADMIN PAGES                                      -->
+        <!-- ================================================ -->
+
+        <!-- หน้า A1: Admin Dashboard -->
+        <section id="page-admin-dashboard" class="page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">ภาพรวมระบบ</h1>
+                    <p class="page-subtitle">ข้อมูลสถิติการใช้งาน · วันที่ 15 มิถุนายน 2568</p>
+                </div>
+                <div class="admin-mode-chip">🛡️ Admin Mode</div>
+            </div>
+
+            <!-- การ์ดสถิติหลัก 4 ช่อง -->
+            <div class="stats-grid-4">
+                <div class="stat-card sc-indigo">
+                    <span class="sc-icon">📅</span>
+                    <p class="sc-num">24</p>
+                    <p class="sc-label">การจองวันนี้</p>
+                    <p class="sc-trend">↑ +3 จากเมื่อวาน</p>
+                </div>
+                <div class="stat-card sc-amber">
+                    <span class="sc-icon">⏳</span>
+                    <p class="sc-num">7</p>
+                    <p class="sc-label">รออนุมัติ</p>
+                    <p class="sc-trend">ต้องดำเนินการด่วน</p>
+                </div>
+                <div class="stat-card sc-teal">
+                    <span class="sc-icon">🚪</span>
+                    <p class="sc-num">8/12</p>
+                    <p class="sc-label">ห้องที่ใช้งานอยู่</p>
+                    <p class="sc-trend">2 ห้องว่าง</p>
+                </div>
+                <div class="stat-card sc-rose">
+                    <span class="sc-icon">📊</span>
+                    <p class="sc-num">67%</p>
+                    <p class="sc-label">อัตราการใช้งาน</p>
+                    <p class="sc-trend">↑ สูงกว่าค่าเฉลี่ย</p>
+                </div>
+            </div>
+
+            <!-- กราฟและสถิติ -->
+            <div class="two-col-grid">
+
+                <!-- กราฟแท่ง: การจองรายชั่วโมง -->
+                <div class="content-card">
+                    <h2 class="content-card-title">📊 จำนวนการจองรายชั่วโมง (วันนี้)</h2>
+                    <div class="bar-chart-container">
+                        <div class="bar-chart">
+                            <div class="bar-group"><div class="bar-col" style="height:30%"><span class="bar-num">3</span></div><span class="bar-x-label">08:00</span></div>
+                            <div class="bar-group"><div class="bar-col" style="height:58%"><span class="bar-num">7</span></div><span class="bar-x-label">09:00</span></div>
+                            <div class="bar-group"><div class="bar-col" style="height:83%"><span class="bar-num">10</span></div><span class="bar-x-label">10:00</span></div>
+                            <div class="bar-group"><div class="bar-col bar-col-highlight" style="height:100%"><span class="bar-num">12</span></div><span class="bar-x-label">11:00</span></div>
+                            <div class="bar-group"><div class="bar-col bar-col-highlight" style="height:92%"><span class="bar-num">11</span></div><span class="bar-x-label">13:00</span></div>
+                            <div class="bar-group"><div class="bar-col" style="height:75%"><span class="bar-num">9</span></div><span class="bar-x-label">14:00</span></div>
+                            <div class="bar-group"><div class="bar-col" style="height:50%"><span class="bar-num">6</span></div><span class="bar-x-label">15:00</span></div>
+                            <div class="bar-group"><div class="bar-col" style="height:25%"><span class="bar-num">3</span></div><span class="bar-x-label">16:00</span></div>
+                        </div>
+                        <p class="chart-legend">🟦 Peak hours: 10:00–14:00 น.</p>
+                    </div>
+                </div>
+
+                <!-- ห้องยอดนิยม -->
+                <div class="content-card">
+                    <h2 class="content-card-title">🏆 ห้องยอดนิยมประจำสัปดาห์</h2>
+                    <div class="popular-list">
+                        <div class="popular-item">
+                            <div class="rank-badge rank-1">1</div>
+                            <div class="popular-info">
+                                <p class="popular-room-name">ห้องติวกลุ่ม A101</p>
+                                <div class="pop-bar-track"><div class="pop-bar-fill" style="width:92%"></div></div>
+                            </div>
+                            <span class="popular-count">46 ครั้ง</span>
+                        </div>
+                        <div class="popular-item">
+                            <div class="rank-badge rank-2">2</div>
+                            <div class="popular-info">
+                                <p class="popular-room-name">โซนเงียบ Zone A</p>
+                                <div class="pop-bar-track"><div class="pop-bar-fill" style="width:78%"></div></div>
+                            </div>
+                            <span class="popular-count">39 ครั้ง</span>
+                        </div>
+                        <div class="popular-item">
+                            <div class="rank-badge rank-3">3</div>
+                            <div class="popular-info">
+                                <p class="popular-room-name">ห้องติวกลุ่ม B301</p>
+                                <div class="pop-bar-track"><div class="pop-bar-fill" style="width:65%"></div></div>
+                            </div>
+                            <span class="popular-count">32 ครั้ง</span>
+                        </div>
+                        <div class="popular-item">
+                            <div class="rank-badge rank-other">4</div>
+                            <div class="popular-info">
+                                <p class="popular-room-name">ห้องเดี่ยว B201</p>
+                                <div class="pop-bar-track"><div class="pop-bar-fill" style="width:45%"></div></div>
+                            </div>
+                            <span class="popular-count">22 ครั้ง</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- การแจ้งเตือนด่วน -->
+            <div class="content-card">
+                <h2 class="content-card-title">🔔 การแจ้งเตือนด่วน</h2>
+                <div class="alert-list">
+                    <div class="alert-item alert-warning">
+                        <span class="alert-icon">⚠️</span>
+                        <div class="alert-text">
+                            <p class="alert-title">มีการจองรออนุมัติ 7 รายการ</p>
+                            <p class="alert-sub">รายการล่าสุดถูกส่งมาเมื่อ 5 นาทีที่แล้ว</p>
+                        </div>
+                        <button onclick="navigate('admin-bookings')" class="btn btn-warning btn-sm">จัดการ →</button>
+                    </div>
+                    <div class="alert-item alert-info">
+                        <span class="alert-icon">ℹ️</span>
+                        <div class="alert-text">
+                            <p class="alert-title">ห้อง B201 กำลังปิดปรับปรุง</p>
+                            <p class="alert-sub">กำหนดเปิดใหม่ 20 มิถุนายน 2568</p>
+                        </div>
+                        <button onclick="navigate('admin-rooms')" class="btn btn-info btn-sm">ดูห้อง →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- หน้า A2: จัดการรายการจอง -->
+        <section id="page-admin-bookings" class="page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">รายการจองทั้งหมด</h1>
+                    <p class="page-subtitle">ดู อนุมัติ ยกเลิก หรือเช็คอินแทนนักศึกษา</p>
+                </div>
+                <div class="filter-row">
+                    <select id="booking-filter" onchange="filterBookings(this.value)" class="filter-select">
+                        <option value="all">ทุกสถานะ</option>
+                        <option value="pending">รออนุมัติ</option>
+                        <option value="confirmed">อนุมัติแล้ว</option>
+                        <option value="checkedin">เช็คอินแล้ว</option>
+                        <option value="cancelled">ยกเลิก</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- สถิติด่วน -->
+            <div class="mini-stats-row" id="admin-booking-mini-stats">
+                <!-- JS render ตรงนี้ -->
+            </div>
+
+            <!-- ตารางรายการจอง -->
+            <div class="content-card table-card">
+                <div class="table-scroll-wrapper">
+                    <table class="data-table" id="bookings-table">
+                        <thead>
+                            <tr>
+                                <th>รหัสการจอง</th>
+                                <th>ผู้จอง</th>
+                                <th>ห้อง</th>
+                                <th>วันที่</th>
+                                <th>เวลา</th>
+                                <th>สถานะ</th>
+                                <th>การดำเนินการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-tbody">
+                            <!-- JS render ตรงนี้ -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- หน้า A3: ควบคุมห้องและพื้นที่ -->
+        <section id="page-admin-rooms" class="page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">ควบคุมห้องและพื้นที่</h1>
+                    <p class="page-subtitle">เปิด–ปิด สถานะห้องและพื้นที่การเรียนรู้</p>
+                </div>
+                <button onclick="showAddRoomAlert()" class="btn btn-primary">+ เพิ่มห้องใหม่</button>
+            </div>
+
+            <!-- สรุปจำนวนห้อง -->
+            <div class="rooms-summary-row" id="rooms-summary">
+                <!-- JS render ตรงนี้ -->
+            </div>
+
+            <!-- การ์ดห้อง -->
+            <div class="rooms-cards-grid" id="rooms-cards-grid">
+                <!-- JS render ตรงนี้ -->
+            </div>
+        </section>
+
+    </main><!-- /main-content -->
+</div><!-- /app-layout -->
+
+<!-- ============================================================ -->
+<!--  Modal: ยืนยันการจองสำเร็จ                                  -->
+<!-- ============================================================ -->
+<div id="success-modal" class="modal-overlay hidden" onclick="closeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-icon-big">🎉</div>
+        <h3 class="modal-title">ส่งคำขอจองสำเร็จ!</h3>
+        <p class="modal-desc" id="modal-desc">ระบบได้รับคำขอจองของคุณแล้ว กำลังรอการอนุมัติจากเจ้าหน้าที่</p>
+        <div class="modal-booking-code" id="modal-booking-code">รหัส: BK-2568-XXX</div>
+        <div class="modal-actions">
+            <button onclick="closeModal(); navigate('user-ticket');" class="btn btn-primary btn-lg">ดูตั๋วการจอง 🎫</button>
+            <button onclick="closeModal()" class="btn btn-outline">ปิด</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: แจ้งเตือนทั่วไป -->
+<div id="alert-modal" class="modal-overlay hidden" onclick="closeAlertModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-icon-big" id="alert-modal-icon">ℹ️</div>
+        <h3 class="modal-title" id="alert-modal-title">แจ้งเตือน</h3>
+        <p class="modal-desc" id="alert-modal-desc">—</p>
+        <div class="modal-actions">
+            <button onclick="closeAlertModal()" class="btn btn-primary">ตกลง</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
